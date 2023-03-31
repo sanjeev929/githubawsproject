@@ -2,7 +2,7 @@ name: Deploy Django app to EC2 instance
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -10,30 +10,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install python3-pip -y
-#           pip3 install ansible
-#       - name: Deploy Django app to EC2 instance
-#         env:
-#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         run: |
-#           ansible-playbook -i inventory/ec2.py deploy.yml --extra-vars "app_name=your-app-name env=your-env-name" --ssh-common-args "-o StrictHostKeyChecking=no"
-
-
-# on: [push]
-
-# jobs:
-#   workflow-command-job:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Disable workflow commands
-#         run: |
-#           echo '::warning:: This is a warning message, to demonstrate that commands are being processed.'
-#           stopMarker=$(uuidgen)
-#           echo "::stop-commands::$stopMarker"
-#           echo '::warning:: This will NOT be rendered as a warning, because stop-commands has been invoked.'
-#           echo "::$stopMarker::"
-#           echo '::warning:: This is a warning again, because stop-commands has been turned off.'
- 
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3-pip -y
+          pip3 install ansible
+      - name: Deploy Django app to EC2 instance
+        env:
+          AWS_ACCESS_KEY_ID: ${{AKIA4TFRWDM3YYDPK6K5 }}
+          AWS_SECRET_ACCESS_KEY: ${{ Wxao26z5GI+Ans823vTscptXEPz966rqW5xEm4r }}
+        run: |
+          ansible-playbook -i inventory/ec2.py deploy.yml --extra-vars "app_name=your-app-name env=your-env-name" --ssh-common-args "-o StrictHostKeyChecking=no"
