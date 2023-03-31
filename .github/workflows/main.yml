@@ -6,4 +6,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3-pip -y
+          pip3 install ansible
+#       - name: Deploy Django app to EC2 instance
+#         env:
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         run: |
+#           ansible-playbook -i inventory/ec2.py deploy.yml --extra-vars "app_name=your-app-name env=your-env-name" --ssh-common-args "-o StrictHostKeyChecking=no"
+
  
