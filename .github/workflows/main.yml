@@ -22,4 +22,4 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ Wxao26z5GI+Ans823vTscptXEPz966rqW5xEm4r }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<your-ec2-instance-ip> "cd /sanjeev929/githubawsproject/ && git pull && python manage.py migrate && sudo systemctl restart gunicorn"
+          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<your-ec2-instance-ip> "cd /githubawsproject/ && git pull && python manage.py migrate && sudo systemctl restart gunicorn"
