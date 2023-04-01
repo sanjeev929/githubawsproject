@@ -1,22 +1,25 @@
-name: Deploy Django app to EC2 instance
+name: Deploy Django to EC2
+
 on:
   push:
     branches:
       - master
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip -y
           pip3 install ansible
-      - name: Deploy Django app to EC2 instance
+
+      - name: Deploy Django to EC2
         env:
-          AWS_ACCESS_KEY_ID: ${{AKIA4TFRWDM3YYDPK6K5 }}
-          AWS_SECRET_ACCESS_KEY: ${{ Wxao26z5GI+Ans823vTscptXEPz966rqW5xEm4r }}
+          SSH_PRIVATE_KEY: ${{ Wxao26z5GI+Ans823vTscptXEPz966rqW5xEm4r }}
         run: |
-          ansible-playbook -i inventory/ec2.py deploy.yml --extra-vars "app_name=your-app-name env=your-env-name" --ssh-common-args "-o StrictHostKeyChecking=no"
+          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<your-ec2-instance-ip> "cd /sanjeev929/githubawsproject/ && git pull && python manage.py migrate && sudo systemctl restart gunicorn"
