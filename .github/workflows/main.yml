@@ -2,24 +2,31 @@ name: Deploy Django to EC2
 
 on:
   push:
-    branches:
-      - master
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install python3-pip -y
-          pip3 install ansible
 
-      - name: Deploy Django to EC2
-        env:
-          SSH_PRIVATE_KEY: ${{ Wxao26z5GI+Ans823vTscptXEPz966rqW5xEm4r }}
-        run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<your-ec2-instance-ip> "cd /githubawsproject/ && git pull && python manage.py migrate && sudo systemctl restart gunicorn"
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
+        pip3 install -r requirements.txt
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_IP }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          cd /path/to/django/project
+          git pull
+          python manage.py migrate
+          sudo systemctl restart gunicorn
