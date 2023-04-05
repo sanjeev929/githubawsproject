@@ -1,32 +1,15 @@
-name: Deploy Django to EC2
+name: Print Message
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
 
 jobs:
-  deploy:
+  print:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Print message
+      run: echo "Code has been pushed to the main branch!"
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip
-        pip3 install -r requirements.txt
-
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_IP }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_PRIVATE_KEY }}
-        port: ${{ secrets.EC2_PORT }}
-        script: |
-          cd /path/to/django/project
-          git pull
-          python manage.py migrate
-          sudo systemctl restart gunicorn
