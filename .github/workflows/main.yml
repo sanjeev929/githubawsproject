@@ -1,14 +1,11 @@
 name: Print Message
-
 on:
   push:
     branches:
       - main
-
 jobs:
   print:
     runs-on: ubuntu-latest
-
     steps:
     - name: Print message
       run: echo "Code has been pushed to the main branch!"
